@@ -2,17 +2,17 @@
 #include <vector>
 #include <fstream>
 #include "Graphics.h"
-#include <ctime>
+#include <ctime> // for random seed choice
 sf::RenderWindow Win(sf::VideoMode(800, 600), "Tetris 1.0");
-struct Points;
-std::vector<Points> points;
-std::vector<Points> InUse;
+struct Points; //defined in graphics.h (may be it's don't right aproach to define extern variable)
+std::vector<Points> points; //all tiles except tiles which you handle in current time
+std::vector<Points> InUse; //tiles that current figure uses
 std::vector<sf::Texture> Tile_Textures;
-std::map<int, std::vector<std::vector<int>>> Fig_map;
-unsigned int Score;
-unsigned int Speed;
-float fall_time = 1;
-void Read_Fig()
+std::map<int, std::vector<std::vector<int>>> Fig_map; //all our figure's patterns stores here
+unsigned int Score; //Score =)
+unsigned int Speed; //Speed =)
+float fall_time = 1; //period of one step
+void Read_Fig() //function that read patterns from .txt file 
 {
 	std::ifstream file("points.txt");
 	if (!file.good())
@@ -45,7 +45,7 @@ void Read_Fig()
 		}
 	}
 }
-void Read_Tex()
+void Read_Tex() //cut .bmp file on separated tiles and write them to conrainer
 {
 	sf::Texture tex;
 	for (int i = 0; i < 5; i++)
@@ -338,7 +338,7 @@ int main()
 		Erase();
 		Check_Line();
 		interface.update();
-		if (Game_Over())
+		if (Game_Over()) //something that better replace with windows.h messageBox
 		{
 			GOWin obj;
 			bool R = false;
